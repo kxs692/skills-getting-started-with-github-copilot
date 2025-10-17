@@ -21,32 +21,46 @@ document.addEventListener("DOMContentLoaded", () => {
         const spotsLeft = details.max_participants - details.participants.length;
 
         // Generate participants list HTML
-        let participantsHTML = '<div class="activity-participants"><h5>Participants</h5>';
+        const participantsDiv = document.createElement("div");
+        participantsDiv.className = "activity-participants";
+        const participantsHeader = document.createElement("h5");
+        participantsHeader.textContent = "Participants";
+        participantsDiv.appendChild(participantsHeader);
         if (details.participants.length > 0) {
-          participantsHTML += '<ul class="participants-list">';
+          const participantsList = document.createElement("ul");
+          participantsList.className = "participants-list";
           details.participants.forEach(participant => {
-            participantsHTML += `
-              <li>
-                <span class="participant-email">${participant}</span>
-                <button class="delete-participant-btn" onclick="unregisterParticipant('${name}', '${participant}')">
-                  ✕
-                </button>
-              </li>
-            `;
+            const li = document.createElement("li");
+            const emailSpan = document.createElement("span");
+            emailSpan.className = "participant-email";
+            emailSpan.textContent = participant;
+            li.appendChild(emailSpan);
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-participant-btn";
+            deleteBtn.textContent = "✕";
+            deleteBtn.addEventListener("click", () => {
+              unregisterParticipant(name, participant);
+            });
+            li.appendChild(deleteBtn);
+
+            participantsList.appendChild(li);
           });
-          participantsHTML += '</ul>';
+          participantsDiv.appendChild(participantsList);
         } else {
-          participantsHTML += '<p class="no-participants">No participants yet - be the first to sign up!</p>';
+          const noParticipants = document.createElement("p");
+          noParticipants.className = "no-participants";
+          noParticipants.textContent = "No participants yet - be the first to sign up!";
+          participantsDiv.appendChild(noParticipants);
         }
-        participantsHTML += '</div>';
 
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-          ${participantsHTML}
         `;
+        activityCard.appendChild(participantsDiv);
 
         activitiesList.appendChild(activityCard);
 
