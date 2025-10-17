@@ -29,8 +29,8 @@ python -m pytest tests/test_app.py::TestSignupEndpoint::test_successful_signup -
 
 ## Test Coverage
 
-The tests provide 100% code coverage for the FastAPI application, including:
-- All API endpoints (GET /activities, POST /signup, DELETE /unregister)
+The tests provide comprehensive coverage for the FastAPI application, including:
+- All major API endpoints (GET /activities, POST /signup, DELETE /unregister)
 - Error handling scenarios
 - Edge cases with URL encoding
 - Complete signup/unregister workflows
